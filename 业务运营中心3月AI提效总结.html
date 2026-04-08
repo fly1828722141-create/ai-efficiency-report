@@ -1,0 +1,1611 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>业务运营中心 3 月 AI 提效总结</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+        
+        * {
+            font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
+        :root {
+            --ali-blue: #1677FF;
+            --ali-blue-light: #E6F4FF;
+            --ali-orange: #FF6A00;
+            --ali-green: #52C41A;
+            --ali-purple: #722ED1;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%);
+            min-height: 100vh;
+        }
+        
+        /* 左侧导航样式 */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+            overflow-y: auto;
+            z-index: 1000;
+            box-shadow: 4px 0 20px rgba(0,0,0,0.15);
+        }
+        
+        .sidebar-header {
+            padding: 24px 20px;
+            background: linear-gradient(135deg, #1677FF 0%, #0958d9 100%);
+            color: white;
+        }
+        
+        .sidebar-title {
+            font-size: 18px;
+            font-weight: 700;
+            line-height: 1.4;
+        }
+        
+        .nav-section {
+            margin: 16px 0;
+        }
+        
+        .nav-section-title {
+            padding: 12px 20px;
+            color: #8b9dc3;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .nav-item {
+            display: block;
+            padding: 12px 20px 12px 28px;
+            color: #b8c5d6;
+            text-decoration: none;
+            font-size: 13px;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+        
+        .nav-item:hover {
+            background: rgba(255,255,255,0.05);
+            color: #fff;
+            border-left-color: #1677FF;
+        }
+        
+        .nav-item.active {
+            background: rgba(22, 119, 255, 0.15);
+            color: #1677FF;
+            border-left-color: #1677FF;
+        }
+        
+        .nav-item i {
+            margin-right: 10px;
+            width: 16px;
+        }
+        
+        /* 主内容区域 */
+        .main-content {
+            margin-left: 280px;
+            min-height: 100vh;
+        }
+        
+        /* Hero区域 - 带插图 */
+        .hero {
+            background: linear-gradient(135deg, #1677FF 0%, #0958d9 50%, #722ED1 100%);
+            padding: 40px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            min-height: 320px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            flex: 1;
+        }
+        
+        .hero-illustration {
+            position: absolute;
+            right: 40px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 380px;
+            height: 240px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .hero-illustration img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(-50%) translateY(0px); }
+            50% { transform: translateY(-50%) translateY(-10px); }
+        }
+        
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-size: 13px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        
+        .hero-title {
+            font-size: 42px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            background: linear-gradient(135deg, #ffffff 0%, #e0e7ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero-subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+            font-weight: 400;
+        }
+        
+        /* 分类数据区域 */
+        .category-section {
+            padding: 40px;
+            background: white;
+            margin: 0 40px 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        
+        .category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        
+        .category-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a1a2e;
+        }
+        
+        .category-total {
+            background: linear-gradient(135deg, #1677FF, #0958d9);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+        
+        .category-item {
+            display: flex;
+            align-items: center;
+            padding: 16px 20px;
+            border-radius: 12px;
+            border-left: 4px solid;
+            background: #f8fafc;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+        }
+        
+        .category-item:hover {
+            transform: translateX(8px) scale(1.02);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+            background: white;
+        }
+        
+        .category-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 14px;
+            font-size: 18px;
+            color: white;
+            transition: transform 0.3s ease;
+        }
+        
+        .category-item:hover .category-icon {
+            transform: scale(1.15) rotate(5deg);
+        }
+        
+        .category-info {
+            flex: 1;
+        }
+        
+        .category-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 2px;
+        }
+        
+        .category-count {
+            font-size: 12px;
+            color: #64748b;
+        }
+        
+        .category-number {
+            font-size: 28px;
+            font-weight: 800;
+            transition: transform 0.3s ease;
+        }
+        
+        .category-item:hover .category-number {
+            transform: scale(1.2);
+        }
+        
+        /* 内容区域 */
+        .content-section {
+            padding: 40px;
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .section-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 16px;
+            font-size: 20px;
+            color: white;
+            transition: transform 0.3s ease;
+        }
+        
+        .section-header:hover .section-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+        
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a1a2e;
+        }
+        
+        .section-count {
+            background: linear-gradient(135deg, #1677FF, #722ED1);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-left: 12px;
+        }
+        
+        /* 项目卡片 */
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+            gap: 24px;
+        }
+        
+        .project-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid #f0f0f0;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-8px) scale(1.01);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+            border-color: rgba(22, 119, 255, 0.3);
+        }
+        
+        .project-header {
+            padding: 20px 24px;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-bottom: 1px solid #e2e8f0;
+            transition: background 0.3s ease;
+        }
+        
+        .project-card:hover .project-header {
+            background: linear-gradient(135deg, #E6F4FF 0%, #f0f7ff 100%);
+        }
+        
+        .project-tag {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .project-card:hover .project-tag {
+            transform: scale(1.05);
+        }
+        
+        .tag-training { background: #E6F4FF; color: #1677FF; }
+        .tag-efficiency { background: #F6FFED; color: #52C41A; }
+        .tag-supply { background: #FFF7E6; color: #FF6A00; }
+        .tag-process { background: #F9F0FF; color: #722ED1; }
+        
+        .project-title {
+            font-size: 17px;
+            font-weight: 600;
+            color: #1a1a2e;
+            line-height: 1.4;
+            transition: color 0.3s ease;
+        }
+        
+        .project-card:hover .project-title {
+            color: #1677FF;
+        }
+        
+        .project-body {
+            padding: 20px 24px;
+        }
+        
+        .project-section {
+            margin-bottom: 16px;
+        }
+        
+        .project-section-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .project-section-title i {
+            margin-right: 6px;
+        }
+        
+        .project-content {
+            font-size: 14px;
+            color: #475569;
+            line-height: 1.7;
+        }
+        
+        /* 图片展示 - 缩小尺寸 */
+        .project-images {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 8px;
+            margin-top: 12px;
+        }
+        
+        .project-image {
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .project-image:hover {
+            transform: scale(1.08);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            border-color: #1677FF;
+            z-index: 10;
+            position: relative;
+        }
+        
+        .project-image img {
+            width: 100%;
+            height: 80px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s ease;
+        }
+        
+        .project-image:hover img {
+            transform: scale(1.1);
+        }
+        
+        /* 效果评估标签 */
+        .effect-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        
+        .effect-tag {
+            background: linear-gradient(135deg, #1677FF, #0958d9);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .effect-tag:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(22, 119, 255, 0.4);
+        }
+        
+        .effect-tag.efficiency {
+            background: linear-gradient(135deg, #52C41A, #389e0d);
+        }
+        
+        .effect-tag.efficiency:hover {
+            box-shadow: 0 4px 12px rgba(82, 196, 26, 0.4);
+        }
+        
+        .effect-tag.quality {
+            background: linear-gradient(135deg, #722ED1, #531dab);
+        }
+        
+        .effect-tag.quality:hover {
+            box-shadow: 0 4px 12px rgba(114, 46, 209, 0.4);
+        }
+        
+        /* 回到顶部 */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #1677FF, #0958d9);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(22, 119, 255, 0.4);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 100;
+        }
+        
+        .back-to-top:hover {
+            transform: translateY(-8px) scale(1.15);
+            box-shadow: 0 12px 30px rgba(22, 119, 255, 0.5);
+        }
+        
+        /* 高亮效果 */
+        .highlight-box {
+            background: linear-gradient(135deg, #E6F4FF 0%, #f0f7ff 100%);
+            border-left: 4px solid #1677FF;
+            padding: 16px 20px;
+            border-radius: 0 8px 8px 0;
+            margin: 16px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .highlight-box:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 15px rgba(22, 119, 255, 0.15);
+        }
+        
+        .highlight-box strong {
+            color: #1677FF;
+        }
+        
+        /* 响应式 */
+        @media (max-width: 1200px) {
+            .project-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero-illustration {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .category-section {
+                margin: 0 20px 30px;
+                padding: 24px;
+            }
+            
+            .hero {
+                padding: 30px 20px;
+                min-height: 200px;
+            }
+            
+            .hero-title {
+                font-size: 28px;
+            }
+            
+            .content-section {
+                padding: 20px;
+            }
+        }
+        
+        /* 平滑滚动 */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* 链接悬停效果 */
+        a {
+            transition: all 0.3s ease;
+        }
+        
+        a:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <!-- 左侧导航 -->
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">业务运营中心</div>
+            <div class="sidebar-title">3 月 AI 提效总结</div>
+        </div>
+        
+        <div class="nav-section">
+            <div class="nav-section-title">概览</div>
+            <a href="#overview" class="nav-item active">
+                <i class="fas fa-chart-pie"></i>数据概览
+            </a>
+        </div>
+        
+        <div class="nav-section">
+            <div class="nav-section-title">团队项目</div>
+            <a href="#training" class="nav-item">
+                <i class="fas fa-graduation-cap"></i>培训组
+            </a>
+            <a href="#efficiency" class="nav-item">
+                <i class="fas fa-rocket"></i>经营效能
+            </a>
+            <a href="#supply" class="nav-item">
+                <i class="fas fa-truck"></i>供应链
+            </a>
+            <a href="#process" class="nav-item">
+                <i class="fas fa-cogs"></i>流程组
+            </a>
+        </div>
+    </nav>
+    
+    <!-- 主内容 -->
+    <main class="main-content">
+        <!-- Hero区域 - 带插图 -->
+        <section class="hero" id="overview">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <i class="fas fa-sparkles mr-2"></i>AI 驱动的业务创新
+                </div>
+                <h1 class="hero-title">业务运营中心<br>3 月 AI 提效总结</h1>
+                <p class="hero-subtitle">20个AI应用项目全面落地，助力业务效率提升</p>
+            </div>
+            <div class="hero-illustration">
+                <img src="hero-illustration.png" alt="AI提效总结插图">
+            </div>
+        </section>
+        
+        <!-- AI项目分类数据 -->
+        <section class="category-section" id="categories">
+            <div class="category-header">
+                <div class="category-title">
+                    <i class="fas fa-layer-group" style="color: #1677FF; margin-right: 10px;"></i>
+                    项目类型分布
+                </div>
+                <div class="category-total">合计 20 个</div>
+            </div>
+            <div class="category-grid">
+                <div class="category-item" style="border-left-color: #1677FF;">
+                    <div class="category-icon" style="background: linear-gradient(135deg, #1677FF, #0958d9);">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="category-info">
+                        <div class="category-name">AI 助理/智能体</div>
+                        <div class="category-count">智能客服、培训助手</div>
+                    </div>
+                    <div class="category-number" style="color: #1677FF;">5</div>
+                </div>
+                <div class="category-item" style="border-left-color: #52C41A;">
+                    <div class="category-icon" style="background: linear-gradient(135deg, #52C41A, #389e0d);">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <div class="category-info">
+                        <div class="category-name">数据分析/跑数</div>
+                        <div class="category-count">数据查询、报表分析</div>
+                    </div>
+                    <div class="category-number" style="color: #52C41A;">5</div>
+                </div>
+                <div class="category-item" style="border-left-color: #FF6A00;">
+                    <div class="category-icon" style="background: linear-gradient(135deg, #FF6A00, #d4380d);">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <div class="category-info">
+                        <div class="category-name">内容生成/文档</div>
+                        <div class="category-count">PPT、方案、周报</div>
+                    </div>
+                    <div class="category-number" style="color: #FF6A00;">4</div>
+                </div>
+                <div class="category-item" style="border-left-color: #722ED1;">
+                    <div class="category-icon" style="background: linear-gradient(135deg, #722ED1, #531dab);">
+                        <i class="fas fa-phone-alt"></i>
+                    </div>
+                    <div class="category-info">
+                        <div class="category-name">外呼/自动化</div>
+                        <div class="category-count">外呼策略、自动化操作</div>
+                    </div>
+                    <div class="category-number" style="color: #722ED1;">3</div>
+                </div>
+                <div class="category-item" style="border-left-color: #13C2C2;">
+                    <div class="category-icon" style="background: linear-gradient(135deg, #13C2C2, #08979c);">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <div class="category-info">
+                        <div class="category-name">监控/质检</div>
+                        <div class="category-count">数据监控、质量检查</div>
+                    </div>
+                    <div class="category-number" style="color: #13C2C2;">3</div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 培训组 -->
+        <section class="content-section" id="training">
+            <div class="section-header">
+                <div class="section-icon" style="background: linear-gradient(135deg, #1677FF, #0958d9);">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <h2 class="section-title">培训组</h2>
+                <span class="section-count">4 个项目</span>
+            </div>
+            
+            <div class="project-grid">
+                <!-- 项目1: 培训AI助理 -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <span class="project-tag tag-training">培训赋能</span>
+                        <h3 class="project-title">培训 AI 助理</h3>
+                    </div>
+                    <div class="project-body">
+                        <div class="project-section">
+                            <div class="project-section-title">
+                                <i class="fas fa-info-circle"></i>项目描述
+                            </div>
+                            <div class="project-content">
+                                将大住宿业务培训现有知识输送给AI进行学习，承担日常答疑、扩展行业知识、新人landing辅导、陪伴成长的任务
+                            </div>
+                        </div>
+                        <div class="project-section">
+                            <div class="project-section-title">
+                                <i class="fas fa-chart-line"></i>进展情况
+                            </div>
+                            <div class="project-content">
+                                25年12月末上线，仅针对入职一年内的BD同学336名进行内测推荐；截止26年3月24日，对话总量 <strong>1051次</strong>，对话人数<strong>104人</strong>；人均对话次数：10次；日均对话次数：15次
+                            </div>
+                        </div>
+                        <div class="project-section">
+                            <div class="project-section-title">
+                                <i class="fas fa-image"></i>成果展示
+                            </div>
+                            <div class="project-images">
+                                <div class="project-image">
+                                    <img src="https://alidocs.oss-cn-zhangjiakou.aliyuncs.com/res/pLdn55X6Myje9no8/img/7ae2950a-b103-4e64-bd72-73fdbf71c587.png" alt="培训AI助理界面">
+                                </div>
+                                <div class="project-image">
+                                    <img src="https://alidocs.oss-cn-zhangjiakou.aliyuncs.com/res/pLdn55X6Myje9no8/img/020425b6-cddf-4747-97b1-c94b2ebef230.png" alt="培训AI助理界面2">
+                                </div>
+                                <div class="project-image">
+                                    <img src="https://alidocs.oss-cn-zhangjiakou.aliyuncs.com/res/pLdn55X6Myje9no8/img/16fc9d81-d58e-4bbf-95a7-5d20a722f402.png" alt="培训AI助理界面3">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="effect-tags">
+                            <span class="effect-tag efficiency">提效：降低学习门槛，提升查找资料效率</span>
+                            <span class="effect-tag quality">提质：填补员工能力提升空白</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 项目2: 热点商家AI助理 -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <span class="project-tag tag-training">商家赋能</span>
+                        <h3 class="project-title">热点商家 AI 助理</h3>
+                    </div>
+                    <div class="project-body">
+                        <div class="project-section">
+                            <div class="project-section-title">
+                                <i class="fas fa-info-circle"></i>项目描述
+                            </div>
+                            <div class="project-content">
+                                商家输入想了解的城市，即可一键查询城市旅行热度，未来3个月城市旅游热点（演唱会、赛事、文旅活动等），同时给出酒店价格与库存、营销的建议
+                            </div>
+                        </div>
+                        <div class="project-section">
+                            <div class="project-section-title">
+                                <i class="fas fa-chart-line"></i>进展情况
+                            </div>
+                            <div class="project-content">
+                                完成内部测试与发布，计划与飞猪商家EBooking平台联动，在工作台&公众号向商家推广使用
+                            </div>
+                        </div>
+                        <div class="project-section">
+                            <div class="project-section-title">
+                                <i class="fas fa-image"></i>成果展示
+                            </div>
+                            <div class="project-images">
+                                <div class="project-image">
+                                    <img src="https://alidocs.oss-cn-zhangjiakou.aliyuncs.com/res/2M9qP5j5QP51gO01/img/586977b6-e7f8-4108-b0d0-83f06f2b43d8.png" alt="热点商家AI助理">
+                                </div>
+                                <div class="project-image">
+                                    <img src="https://alidocs.oss-cn-zhangjiakou.aliyuncs.com/res/2M9qP5j5QP51gO01/img/458329e6-c9a7-4692-b751-dda3c29b460a.png" alt="热点商家AI助理2">
+                                </div>
+                                <div class="project-image">
+                                    <img src="https://alidocs.oss-cn-zhangjiakou.aliyuncs.com/res/2M9qP5j5QP51gO01/img/d861f62c-eaa4-4708-a77e-a031c846bd66.png" alt="热点商家AI助理3">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="effect-tags">
+                            <span class="effect-tag efficiency">提效：30秒生成城市旅行热点分析报告</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 项目3: BD培训AI助手 -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <span class="project-tag tag-training">培训创新</span>
+                        <h3 class="project-title">BD培训 AI 助手</h3>
+                    </div>
+                    <div class="project-body">
+                        <div class="project-section">
+                            <div class="project-section-title">
+                                <i class="fas fa-info-circle"></i>项目描述
+                            </div>
+                            <div class="project-content">
+                                通过AI搭建剧本杀培训方案《破局·酒店风云》沉浸式商战剧本杀培训项目，完成页面开发和线上部署
+                            </div>
+                        </div>
+                        <div class="project-section">
+                            <div class="project-section-title">
+                                <i class="fas fa-chart-line"></i>进展情况
+                            </div>
+                            <div class="project-content">
+                                通过校验及业务调研，逐步形成完善方案
+                            </div>
+                        </div>
+                        <div class="project-section">
+                            <div class="project-section-title">
+                                <i class="fas fa-image"></i>成果展示
+                            </div>
+                            <div class="highlight-box">
+                                <strong>项目文档：</strong>《破局·酒店风云》沉浸式商战剧本杀培训项目方案<br>
+                                <a href="https://alidocs.dingtalk.com/i/nodes/gvNG4YZ7Jn9gdzb3SqyQqqR9V2LD0oRE?utm_scene=team_space" target="_blank" style="color: #1677FF;">查看详细方案 →</a>
+                            </div>
+                        </div>
+                        <div class="effect-tags">
+                            <span class="effect-tag efficiency">提效：提升项目设计效率和质量</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 项目4: AI交互式模拟舱 -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <span class="project-tag tag-training">培训创新</span>
+                        <h3 class="project-title">AI 交互式模拟舱</h3>
+                    </div>
+                    <div class="project-body">
+                        <div class="project-section">
+                            <div class="project-section-title">
+                                <i class="fas fa-info-circle"></i>项目描述
+                            </div>
+                            <div class="project-content">
+                                通过AI（qoder）设计线上交互式培训，创新培训形式，提升学员参与度和学习效果
+                            </div>
+                        </div>
+                        <div class="project-section">
+                            <div class="project-section-title">
+                                <i class="fas fa-chart-line"></i>进展情况
+                            </div>
+                            <div class="project-content">
+                                已完成网页设计，通过AI能力实现培训产品落地
+                            </div>
+                        </div>
+                        <div class="project-section">
+                            <div class="project-section-title">
+                                <i class="fas fa-image"></i>成果展示
+                            </div>
+                            <div class="project-images">
+                                <div class="project-image">
+                                    <img src="https://alidocs.oss-cn-zhangjiakou.aliyuncs.com/res/pLdn55Xz2axB9no8/img/94754c96-6f1e-4fef-80eb-650076f75b59.png" alt="AI交互式模拟舱">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="effect-tags">
+                            <span class="effect-tag quality">提质：提升培训效率和质量</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 经营效能 -->
+        <section class="content-section" id="efficiency">
+            <div class="section-header">
+                <div class="section-icon" style="background: linear-gradient(135deg, #52C41A, #389e0d);">
+                    <i class="fas fa-rocket"></i>
+                </div>
+                <h2 class="section-title">经营效能</h2>
+                <span class="section-count">11 个项目</span>
+            </div>
+            
+            <div class="project-grid">
+                <!-- 项目1: BD问答skill自动化 -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <span class="project-tag tag-efficiency">自动化</span>
+                        <h3 class="project-title">BD 问答 skill 自动化代操作</h3>
+                    </div>
+                    <div class="project-body">
+                        <div class="project-section">
+                            <div class="project-section-title">
+                                <i class="fas fa-info-circle"></i>项目描述
+                            </div>
+                            <div class="project-content">
+                                随问随答高频问题提炼写成 skill 自动化查询代操作，实现智能客服自动化
+                            </div>
+                        </div>
+                        <div class="project-section">
+                            <div class="project-section-title">
+                                <i class="fas fa-chart-line"></i>进展情况
+                            </div>
+                            <div class="project-content">
+                                目前已完成全流程验证，操作成功率 <strong>100%</strong>。该项技能上线后，预计可将此类工单的单均处理时长缩减 <strong>60% 以上</strong>
+                            </div>
+                        </div>
+                        <div class="project-section">
+                            <div class="project-section-title">
+                                <i class="fas fa-image"></i>成果展示
+                            </div>
+                            <div class="highlight-box">
+                                <strong>演示视频：</strong>3月18日测试skills<br>
+                                <a href="https://alidocs.dingtalk.com/i/nodes/YndMj49yWjlAYoxjtDDax7jOJ3pmz5aA?cid=52208945330&corpId=dingd8e1123006514592&iframeQuery=anchorId%3DX02mn5q5cbgnvwysb2e2y9&utm_medium=im_card&utm_scene=person_space&utm_source=im" target="_blank" style="color: #1677FF;">查看视频演示 →</a>
+                            </div>
+                        </div>
+                        <div class="effect-tags">
+                            <span class="effect-tag efficiency">提效：极大缓解服务支持的人工压力</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 项目2: AI清明服务方案 -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <span class="project-tag tag-efficiency">方案生成</span>
+                        <h3 class="project-title">AI 清明服务方案</h3>
+                    </div>
+                    <div class="project-body">
+                        <div class="project-section">
+                            <div class="project-section-title">
+                                <i class="fas fa-info-circle"></i>项目描述
+                            </div>
+                            <div class="project-content">
+                                利用AI完成清明方案过往信息和预测信息同步治理，3-5分钟把之前可能需要几个小时收集的信息很迅速的做成方案
+                            </div>
+                        </div>
+                        <div class="project-section">
+                            <div class="project-section-title">
+                                <i class="fas fa-chart-line"></i>进展情况
+                            </div>
+                            <div class="project-content">
+                                利用AI完成清明方案过往信息和预测信息同步治理
+                            </div>
+                        </div>
+                        <div class="project-section">
+                            <div class="project-section-title">
+                                <i class="fas fa-image"></i>成果展示
+                            </div>
+                            <div class="project-images">
+                                <div class="project-image">
+                                    <img src="https://alidocs.oss-cn-zhangjiakou.aliyuncs.com/res/2M9qP5j5QP51gO01/img/e1f0b9a5-7179-4a33-b227-d9e140579441.png" alt="AI清明服务方案">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="effect-tags">
+                            <span class="effect-tag efficiency">提效：3-5分钟完成原本需数小时的方案</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 项目3: AI自主决策外呼策略 -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <span class="project-tag tag-efficiency">智能外呼</span>
+                        <h3 class="project-title">AI 自主决策外呼策略</h3>
+                    </div>
+                    <div class="project-body">
+                        <div class="project-section">
+                            <div class="project-section-title">
+                                <i class="fas fa-info-circle"></i>项目描述
+                            </div>
+                            <div class="project-content">
+                                利用AI完成商家画像自动生成-自动发起外呼-自动分析-自优化-反哺闭环
+                            </div>
+                        </div>
+                        <div class="project-section">
+                            <div class="project-section-title">
+                                <i class="fas fa-chart-line"></i>进展情况
+                            </div>
+                            <div class="project-content">
+                                初步跑通【搭建酒店画像】-【定位整合外呼任务】-【自动搭建极简画布机器人】-【外呼收集谈判结果】-【自动分析&自优化】-【迭代酒店画像&任务】的外呼作业闭环
+                            </div>
+                        </div>
+                        <div class="project-section">
+                            <div class="project-section-title">
+                                <i class="fas fa-image"></i>成果展示
+                            </div>
+                            <div class="project-images">
+                                <div class="project-image" style="grid-column: span 3;">
+                                    <img src="./ai-outbound-strategy.png" alt="智能外呼策略规划大图" style="height: 200px; object-fit: contain; background: #1a1a2e;">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="effect-tags">
+                            <span class="effect-tag efficiency">提效：减少产技资源依赖，提高迭代速度</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 项目4: AI外呼分析质检 -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <span class="project-tag tag-efficiency">智能质检</span>
+                        <h3 class="project-title">AI 外呼分析质检 skill</h3>
+                    </div>
+                    <div class="project-body">
+                        <div class="project-section">
+                            <div class="project-section-title">
+                                <i class="fas fa-info-circle"></i>项目描述
+                            </div>
+                            <div class="project-content">
+                                AI外呼后数据清洗、数据分析、AI准确率质检skills，实现外呼后复盘迭代全流程
+                            </div>
+                        </div>
+                        <div class="project-section">
+                            <div class="project-section-title">
+                                <i class="fas fa-chart-line"></i>进展情况
+                            </div>
+                            <div class="project-content">
+                                利用AI实现外呼后复盘迭代全流程：外呼数据明细清洗-数据汇总分析-通话内容质检-谈判策略优化全流程闭环
+                            </div>
+                        </div>
+                        <div class="project-section">
+                            <div class="project-section-title">
+                                <i class="fas fa-image"></i>成果展示
+                            </div>
+                            <div class="project-images">
+                                <div class="project-image">
+                                    <img src="https://alidocs.oss-cn-zhangjiakou.aliyuncs.com/res/YdgOk2bk9Ny46q4B/img/19109aba-6f10-47a1-b621-32f55ab59a64.png" alt="AI外呼分析质检">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="effect-tags">
+                            <span class="effect-tag efficiency">提效：原人工30min数据清洗时间缩短至5min</span>
+                            <span class="effect-tag quality">提质：提升质检覆盖率与准确性</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 项目5: AI热点监控 -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <span class="project-tag tag-efficiency">数据监控</span>
+                        <h3 class="project-title">AI 热点监控</h3>
+                    </div>
+                    <div class="project-body">
+                        <div class="project-section">
+                            <div class="project-section-title">
+                                <i class="fas fa-info-circle"></i>项目描述
+                            </div>
+                            <div class="project-content">
+                                热点日期实时数据推送，让AI定时推送当前的热点服务数据，包括分业务线、分酒店数据相关
+                            </div>
+                        </div>
+                        <div class="project-section">
+                            <div class="project-section-title">
+                                <i class="fas fa-chart-line"></i>进展情况
+                            </div>
+                            <div class="project-content">
+                                可直接发送到钉钉消息推送到相关的同学，帮助高效看到目前数据情况
+                            </div>
+                        </div>
+                        <div class="project-section">
+                            <div class="project-section-title">
+                                <i class="fas fa-image"></i>成果展示
+                            </div>
+                            <div class="project-images">
+                                <div class="project-image">
+                                    <img src="https://alidocs.oss-cn-zhangjiakou.aliyuncs.com/res/2M9qP5j5QP51gO01/img/fe858e4b-eb0f-4c52-bf47-8e92c945a6eb.png" alt="AI热点监控">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="effect-tags">
+                            <span class="effect-tag efficiency">提效：实时掌握业务热点数据</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 项目6: AI跑数 -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <span class="project-tag tag-efficiency">数据查询</span>
+                        <h3 class="project-title">AI 跑数</h3>
+                    </div>
+                    <div class="project-body">
+                        <div class="project-section">
+                            <div class="project-section-title">
+                                <i class="fas fa-info-circle"></i>项目描述
+                            </div>
+                            <div class="project-content">
+                                自然语言取ODPS底表数据，FBI AI自然语言取ODPS底表数据
+                            </div>
+                        </div>
+                        <div class="project-section">
+                            <div class="project-section-title">
+                                <i class="fas fa-chart-line"></i>进展情况
+                            </div>
+                            <div class="project-content">
+                                输入自然语言即可从ODPS底表取数，无需编写SQL
+                            </div>
+                        </div>
+                        <div class="project-section">
+                            <div class="project-section-title">
+                                <i class="fas fa-image"></i>成果展示
+                            </div>
+                            <div class="project-images">
+                                <div class="project-image">
+                                    <img src="https://alidocs.oss-cn-zhangjiakou.aliyuncs.com/res/r4mlQ5bA1byPglxo/img/cf8d3350-07a0-4b4c-9f60-a8537b5755be.png" alt="AI跑数">
+                                </div>
+                                <div class="project-image">
+                                    <img src="https://alidocs.oss-cn-zhangjiakou.aliyuncs.com/res/r4mlQ5bA1byPglxo/img/50d3dff9-9f90-4253-9438-78c8592a9515.png" alt="AI跑数2">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="effect-tags">
+                            <span class="effect-tag efficiency">提效：节省写SQL时间约15min</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 项目7: PPT-skill -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <span class="project-tag tag-efficiency">内容生成</span>
+                        <h3 class="project-title">PPT-Skill</h3>
+                    </div>
+                    <div class="project-body">
+                        <div class="project-section">
+                            <div class="project-section-title">
+                                <i class="fas fa-info-circle"></i>项目描述
+                            </div>
+                            <div class="project-content">
+                                AI做PPT，并生成skill，自动化生成专业美观的演示文稿
+                            </div>
+                        </div>
+                        <div class="project-section">
+                            <div class="project-section-title">
+                                <i class="fas fa-chart-line"></i>进展情况
+                            </div>
+                            <div class="project-content">
+                                写PPT只需要编辑文档就可以生成美观的PPT
+                            </div>
+                        </div>
+                        <div class="project-section">
+                            <div class="project-section-title">
+                                <i class="fas fa-image"></i>成果展示
+                            </div>
+                            <div class="project-images">
+                                <div class="project-image">
+                                    <img src="https://alidocs.oss-cn-zhangjiakou.aliyuncs.com/res/r4mlQ5bA1byPglxo/img/2e7a4f25-3513-41ab-b7ad-e39a74b5754c.png" alt="PPT-Skill">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="effect-tags">
+                            <span class="effect-tag efficiency">提效：节省美化PPT时间约15min</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 项目8: AI写SQL跑底表 -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <span class="project-tag tag-efficiency">代码生成</span>
+                        <h3 class="project-title">AI 写 SQL 跑底表</h3>
+                    </div>
+                    <div class="project-body">
+                        <div class="project-section">
+                            <div class="project-section-title">
+                                <i class="fas fa-info-circle"></i>项目描述
+                            </div>
+                            <div class="project-content">
+                                拥有自己的小代码库，节省繁琐的问询，通过AI写SQL跑出想要但报表未体现的数据
+                            </div>
+                        </div>
+                        <div class="project-section">
+                            <div class="project-section-title">
+                                <i class="fas fa-chart-line"></i>进展情况
+                            </div>
+                            <div class="project-content">
+                                还能找AI核验技术早就不记得的业务逻辑
+                            </div>
+                        </div>
+                        <div class="project-section">
+                            <div class="project-section-title">
+                                <i class="fas fa-image"></i>成果展示
+                            </div>
+                            <div class="project-images">
+                                <div class="project-image">
+                                    <img src="https://alidocs.oss-cn-zhangjiakou.aliyuncs.com/res/2M9qP5j5QP51gO01/img/50c7206c-bf76-4324-a697-65f094964fe6.png" alt="AI写SQL">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="effect-tags">
+                            <span class="effect-tag efficiency">提效：自助获取报表外数据</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 项目9: AI运营微信公众号 -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <span class="project-tag tag-efficiency">内容运营</span>
+                        <h3 class="project-title">AI 运营微信公众号</h3>
+                    </div>
+                    <div class="project-body">
+                        <div class="project-section">
+                            <div class="project-section-title">
+                                <i class="fas fa-info-circle"></i>项目描述
+                            </div>
+                            <div class="project-content">
+                                AI进行对标账号分析-内容拆解-结合友商内容和市场热点建立自己的选题库-建立自己的公众号排版模版-输出内容
+                            </div>
+                        </div>
+                        <div class="project-section">
+                            <div class="project-section-title">
+                                <i class="fas fa-chart-line"></i>进展情况
+                            </div>
+                            <div class="project-content">
+                                全流程AI辅助公众号运营
+                            </div>
+                        </div>
+                        <div class="project-section">
+                            <div class="project-section-title">
+                                <i class="fas fa-image"></i>成果展示
+                            </div>
+                            <div class="project-images">
+                                <div class="project-image">
+                                    <img src="https://alidocs.oss-cn-zhangjiakou.aliyuncs.com/res/2M9qP5j5QP51gO01/img/d0cb7ec0-3c3c-4f97-97ba-3a7b8622904f.png" alt="AI运营公众号">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="effect-tags">
+                            <span class="effect-tag efficiency">提效：用更短时间产出更专业内容</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 项目10: AI数据分析 -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <span class="project-tag tag-efficiency">数据分析</span>
+                        <h3 class="project-title">AI 数据分析</h3>
+                    </div>
+                    <div class="project-body">
+                        <div class="project-section">
+                            <div class="project-section-title">
+                                <i class="fas fa-info-circle"></i>项目描述
+                            </div>
+                            <div class="project-content">
+                                使用FBI进行数据汇总分析，通过描述所需要的字段、要求等，让AI协助做数据统计和分析
+                            </div>
+                        </div>
+                        <div class="project-section">
+                            <div class="project-section-title">
+                                <i class="fas fa-chart-line"></i>进展情况
+                            </div>
+                            <div class="project-content">
+                                通过描述要求、筛选条件等逻辑，可以完成相对复杂的数据统计和计算
+                            </div>
+                        </div>
+                        <div class="project-section">
+                            <div class="project-section-title">
+                                <i class="fas fa-image"></i>成果展示
+                            </div>
+                            <div class="project-images">
+                                <div class="project-image">
+                                    <img src="https://alidocs.oss-cn-zhangjiakou.aliyuncs.com/res/2M9qP5j5QP51gO01/img/c1a54cef-b0ee-4319-9a67-d400268643f4.png" alt="AI数据分析">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="effect-tags">
+                            <span class="effect-tag efficiency">提效：节约数据处理时间</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 项目11: AI周报 -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <span class="project-tag tag-efficiency">报告生成</span>
+                        <h3 class="project-title">AI 周报</h3>
+                    </div>
+                    <div class="project-body">
+                        <div class="project-section">
+                            <div class="project-section-title">
+                                <i class="fas fa-info-circle"></i>项目描述
+                            </div>
+                            <div class="project-content">
+                                运营周报梳理，整合核心数据、关键策略进展等重点，生成周报内容
+                            </div>
+                        </div>
+                        <div class="project-section">
+                            <div class="project-section-title">
+                                <i class="fas fa-chart-line"></i>进展情况
+                            </div>
+                            <div class="project-content">
+                                写的人更方便梳理自己的结构，阅读者能快速找到重点、要点
+                            </div>
+                        </div>
+                        <div class="project-section">
+                            <div class="project-section-title">
+                                <i class="fas fa-image"></i>成果展示
+                            </div>
+                            <div class="project-images">
+                                <div class="project-image">
+                                    <img src="https://alidocs.oss-cn-zhangjiakou.aliyuncs.com/res/r4mlQ5bA1byPglxo/img/caaf45b3-b734-4f81-9bbe-1f6d30780977.png" alt="AI周报">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="effect-tags">
+                            <span class="effect-tag efficiency">提效：更清晰直接的周报呈现</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 项目12: AI提取标杆商家画像 -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <span class="project-tag tag-efficiency">智能分析</span>
+                        <h3 class="project-title">AI 提取标杆商家画像</h3>
+                    </div>
+                    <div class="project-body">
+                        <div class="project-section">
+                            <div class="project-section-title">
+                                <i class="fas fa-info-circle"></i>项目描述
+                            </div>
+                            <div class="project-content">
+                                AI通过数据能快速筛选出优秀的门店，并做成标杆案例海报
+                            </div>
+                        </div>
+                        <div class="project-section">
+                            <div class="project-section-title">
+                                <i class="fas fa-chart-line"></i>进展情况
+                            </div>
+                            <div class="project-content">
+                                自动化生成标杆商家案例
+                            </div>
+                        </div>
+                        <div class="project-section">
+                            <div class="project-section-title">
+                                <i class="fas fa-image"></i>成果展示
+                            </div>
+                            <div class="project-images">
+                                <div class="project-image">
+                                    <img src="https://alidocs.oss-cn-zhangjiakou.aliyuncs.com/res/2M9qP5j5QP51gO01/img/fc3bc0bd-c7ae-4b67-ae55-319da0070376.png" alt="AI提取标杆商家画像">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="effect-tags">
+                            <span class="effect-tag efficiency">提效：节约查找制作时间</span>
+                            <span class="effect-tag quality">提质：更吸引眼球的案例展示</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 供应链 -->
+        <section class="content-section" id="supply">
+            <div class="section-header">
+                <div class="section-icon" style="background: linear-gradient(135deg, #FF6A00, #d4380d);">
+                    <i class="fas fa-truck"></i>
+                </div>
+                <h2 class="section-title">供应链</h2>
+                <span class="section-count">2 个项目</span>
+            </div>
+            
+            <div class="project-grid">
+                <!-- 项目1: 数据播报AI -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <span class="project-tag tag-supply">数据播报</span>
+                        <h3 class="project-title">数据播报 AI</h3>
+                    </div>
+                    <div class="project-body">
+                        <div class="project-section">
+                            <div class="project-section-title">
+                                <i class="fas fa-info-circle"></i>项目描述
+                            </div>
+                            <div class="project-content">
+                                供应链&特金&政府券日播报，利用AI分析对指定的报表进行内容解读、指标趋势分析、数据异动分析
+                            </div>
+                        </div>
+                        <div class="project-section">
+                            <div class="project-section-title">
+                                <i class="fas fa-chart-line"></i>进展情况
+                            </div>
+                            <div class="project-content">
+                                在项目对接群内自动播报，多协作方随时随地知晓数据进展
+                            </div>
+                        </div>
+                        <div class="project-section">
+                            <div class="project-section-title">
+                                <i class="fas fa-image"></i>成果展示
+                            </div>
+                            <div class="project-images">
+                                <div class="project-image">
+                                    <img src="https://alidocs.oss-cn-zhangjiakou.aliyuncs.com/res/2M9qP5j5QP51gO01/img/4e1556c0-625f-4447-ad1f-fc54934cdeef.png" alt="数据播报AI">
+                                </div>
+                                <div class="project-image">
+                                    <img src="https://alidocs.oss-cn-zhangjiakou.aliyuncs.com/res/2M9qP5j5QP51gO01/img/6b3e2541-6880-4d84-b8df-ae233eb72675.png" alt="数据播报AI2">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="effect-tags">
+                            <span class="effect-tag efficiency">提效：大幅降低人工做数&报表解读时长</span>
+                            <span class="effect-tag quality">提质：快速识别指标异动</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 项目2: AI制作商家SK -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <span class="project-tag tag-supply">材料生成</span>
+                        <h3 class="project-title">AI 制作商家 SK</h3>
+                    </div>
+                    <div class="project-body">
+                        <div class="project-section">
+                            <div class="project-section-title">
+                                <i class="fas fa-info-circle"></i>项目描述
+                            </div>
+                            <div class="project-content">
+                                通过AI制作营销升级-EBK对商材料，利用AI生成数据安全且商家易懂的宣导材料
+                            </div>
+                        </div>
+                        <div class="project-section">
+                            <div class="project-section-title">
+                                <i class="fas fa-chart-line"></i>进展情况
+                            </div>
+                            <div class="project-content">
+                                将原本6页的详尽报告精准浓缩为一页核心精华
+                            </div>
+                        </div>
+                        <div class="project-section">
+                            <div class="project-section-title">
+                                <i class="fas fa-image"></i>成果展示
+                            </div>
+                            <div class="project-images">
+                                <div class="project-image">
+                                    <img src="https://alidocs.oss-cn-zhangjiakou.aliyuncs.com/res/2M9qP5j5QP51gO01/img/b655563c-24a9-4efe-92b0-7ac2ea8ba06a.png" alt="AI制作商家SK">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="effect-tags">
+                            <span class="effect-tag efficiency">提效：大幅提升信息获取效率</span>
+                            <span class="effect-tag quality">提质：数据安全保护下简化复杂逻辑</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 流程组 -->
+        <section class="content-section" id="process">
+            <div class="section-header">
+                <div class="section-icon" style="background: linear-gradient(135deg, #722ED1, #531dab);">
+                    <i class="fas fa-cogs"></i>
+                </div>
+                <h2 class="section-title">流程组</h2>
+                <span class="section-count">2 个项目</span>
+            </div>
+            
+            <div class="project-grid">
+                <!-- 项目1: AI写SQL搭看板 -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <span class="project-tag tag-process">数据看板</span>
+                        <h3 class="project-title">AI 写 SQL 搭看板</h3>
+                    </div>
+                    <div class="project-body">
+                        <div class="project-section">
+                            <div class="project-section-title">
+                                <i class="fas fa-info-circle"></i>项目描述
+                            </div>
+                            <div class="project-content">
+                                0基础AI写代码搭建拜访FBI看板，接手长期未维护的FBI，人工梳理底表逻辑后，让AI帮忙写SQL
+                            </div>
+                        </div>
+                        <div class="project-section">
+                            <div class="project-section-title">
+                                <i class="fas fa-chart-line"></i>进展情况
+                            </div>
+                            <div class="project-content">
+                                跑出数据集，完成FBI看板搭建
+                            </div>
+                        </div>
+                        <div class="project-section">
+                            <div class="project-section-title">
+                                <i class="fas fa-image"></i>成果展示
+                            </div>
+                            <div class="project-images">
+                                <div class="project-image">
+                                    <img src="https://alidocs.oss-cn-zhangjiakou.aliyuncs.com/res/2M9qP5j5QP51gO01/img/fb592d4b-a8fd-4ecf-a2a9-2852a3d8df38.png" alt="AI写SQL搭看板">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="effect-tags">
+                            <span class="effect-tag efficiency">提效：从不可能变成可能，0基础写好SQL并跑出数据集</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 项目2: AI拜访分析 -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <span class="project-tag tag-process">过程管理</span>
+                        <h3 class="project-title">AI 拜访分析</h3>
+                    </div>
+                    <div class="project-body">
+                        <div class="project-section">
+                            <div class="project-section-title">
+                                <i class="fas fa-info-circle"></i>项目描述
+                            </div>
+                            <div class="project-content">
+                                拜访跟进日维度推送更新，已完成拜访管理，AI日维度更新数据推送分析
+                            </div>
+                        </div>
+                        <div class="project-section">
+                            <div class="project-section-title">
+                                <i class="fas fa-chart-line"></i>进展情况
+                            </div>
+                            <div class="project-content">
+                                基于Qoderwork生成日报
+                            </div>
+                        </div>
+                        <div class="project-section">
+                            <div class="project-section-title">
+                                <i class="fas fa-image"></i>成果展示
+                            </div>
+                            <div class="project-images">
+                                <div class="project-image">
+                                    <img src="https://alidocs.oss-cn-zhangjiakou.aliyuncs.com/res/2M9qP5j5QP51gO01/img/10c4b76a-66cf-433b-ab77-4a21970f306b.png" alt="AI拜访分析">
+                                </div>
+                                <div class="project-image">
+                                    <img src="https://alidocs.oss-cn-zhangjiakou.aliyuncs.com/res/2M9qP5j5QP51gO01/img/5cdebea6-6de9-4181-9715-7775abd5e62c.png" alt="AI拜访分析2">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="effect-tags">
+                            <span class="effect-tag efficiency">提效：日维度10分钟即可快速知晓过程管理问题</span>
+                            <span class="effect-tag quality">提质：从原来的分析数据变成看问题、找对策</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- 回到顶部 -->
+    <div class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+    
+    <script>
+        // 导航高亮
+        const sections = document.querySelectorAll('section[id]');
+        const navItems = document.querySelectorAll('.nav-item');
+        
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navItems.forEach(item => {
+                item.classList.remove('active');
+                if (item.getAttribute('href') === '#' + current) {
+                    item.classList.add('active');
+                }
+            });
+        });
+        
+        // 图片点击放大
+        document.querySelectorAll('.project-image').forEach(img => {
+            img.addEventListener('click', function() {
+                const src = this.querySelector('img').src;
+                const modal = document.createElement('div');
+                modal.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0,0,0,0.9);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    z-index: 10000;
+                    cursor: zoom-out;
+                    animation: fadeIn 0.3s ease;
+                `;
+                modal.innerHTML = `<img src="${src}" style="max-width: 90%; max-height: 90%; border-radius: 8px; animation: scaleIn 0.3s ease;">`;
+                modal.onclick = () => modal.remove();
+                document.body.appendChild(modal);
+            });
+        });
+        
+        // 添加CSS动画
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeIn {
+                from { opacity: 0; }
+                to { opacity: 1; }
+            }
+            @keyframes scaleIn {
+                from { transform: scale(0.8); opacity: 0; }
+                to { transform: scale(1); opacity: 1; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
